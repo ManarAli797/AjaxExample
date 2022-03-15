@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <button data-page="demo-one.html">Get Demo One</button>
+    <button data-page="demo-two.html">Get Demo two</button>
+    <div id="show"></div>
+    <input type="text" class='my-comment'>
+    <div id="idcomment"></div>
+    <script src="jquery-3.6.0.min.js"></script>
+    <script>
+        //Ajax with jQuery
+
+        /*$(function() {
+            $('#show').load('text.txt', function(responstxt, statusTxt, xhr) {
+                console.log(responstxt);
+                console.log(statusTxt);
+                console.log(xhr);
+                if (statusTxt === "success") {
+                    console.log("Data Loaded");
+                }
+            });
+        });*/
+
+        $(function() {
+            $('button').on('click', function() {
+                $('#show').load($(this).data("page"), function(responstxt, statusTxt, xhr) {
+                    if (statusTxt === "success") {
+                        console.log("Data Loaded");
+                    }
+                });
+            });
+        });
+
+        //jQuery With Php Use  $.get,$.post
+        /*
+        $('button').on('click', function() {
+            $.get('auth.php?name=Manar&lastlogin=Today', function(data, status, xhr) {
+                console.log(data);
+
+            });
+
+        });
+        */
+
+        /*
+        $('button').on('click', function() {
+            $.post('auth.php', {
+                name: "Manar",
+                lastlogin: "Today"
+            }, function(data, status, xhr) {
+                console.log(data);
+            });
+
+        });*/
+
+        //jQuery Ajax
+        $(function() {
+            $('button').on('click', function() {
+                $.ajax({
+                    method: 'POST', //Method Used For Requset
+                    url: 'auth.php', //URL To Sent The Requset, Defult is Current URL
+                    data: {
+                        comments: $(".my-comment").val() //comments from file php
+                    },
+
+                    success: function(data, statTxt, xhr) {
+                        //Function To Run When Request Suuccess
+                        console.log(data);
+                        console.log(statTxt);
+                        $('#idcomment').html(data);
+                    },
+                    error: function(xhr, status, error) {
+                        //Function To Run When Request Error
+                        console.log(xhr);
+                        console.log(status);
+                        console.log(error); //Type Of Error
+                    },
+                    complete: function(xhr, status) {
+                        //Function To Run When Request complete success or error
+                        console.log(xhr);
+                        console.log(status);
+
+                    }
+
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

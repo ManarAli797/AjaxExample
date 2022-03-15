@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+        /*
+            Ready State is The Status Of The Request
+            [0] Request Not Initiatized
+            [1] Server Connection Established 
+            [2] Request Recievd
+            [3] Processing Request 
+            [4] Request is Finised and Response is Ready
+        */
+    -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button onclick="getRepos()">Get Repos</button>
+    <p id="show"></p>
+    <script>
+        //JSON
+        //Make Requset
+        function getRepos() {
+            //Assign the Request object to variable
+            var myRequest = new XMLHttpRequest;
+
+            //onreadystatechange is  function called when ready state change
+            myRequest.onreadystatechange = function() {
+
+                //console.log(this.readyState);
+                //console.log(myRequest);
+
+                // If  Request is Finised and Response is Ready And Status Code is 200(ok) Output Response Text
+                if (this.readyState === 4 && this.status === 200) {
+                    //console.log(this.responseText); //String Must Convert To js Object
+                    //console.log(JSON.parse(this.responseText)); //js object
+
+                    //convert ResponseText To js Object
+                    var myJsObject = JSON.parse(this.responseText),
+                        myText = " ";
+                    for (var i = 0; i < myJsObject.length; i++) {
+                        //console.log(myJsObject[i].username);
+                        myText = myText + myJsObject[i].username + "</br>";
+                        console.log(myText);
+                    }
+                    document.getElementById("show").innerHTML = myText;
+                }
+
+            };
+            //XMLHttpRequest .open(Method, Url, Async, User, Password)
+            myRequest.open('GET', 'user.json', true);
+            myRequest.send();
+
+
+        }
+    </script>
+</body>
+
+</html>
